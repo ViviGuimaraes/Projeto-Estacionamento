@@ -1,0 +1,7 @@
+Inserção Cliente
+$dados = array(
+    "nome" => "Teste 123",
+    "telefone" => "(11) 4002-8922"
+);
+
+
