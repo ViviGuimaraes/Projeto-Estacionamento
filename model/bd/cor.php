@@ -11,14 +11,12 @@ require_once('conexaoMySQL.php');
 
 
 /**
+ *  função para inserir cor 
  * 
  * @author Vívian Guimarães Vaz
- * @param String nome - retornar a cor de cada carro
+ * @param String nome da cor de cada veiculo
  * @return Bool se der retornará um buleano 
  */
-
- 
-// função para inserir cor 
 function insertCor($nome){
 
     // abrindo conexão com o BD
@@ -51,11 +49,19 @@ function insertCor($nome){
 
 }
 
-$nome = 'rosa';
-insertCor($nome);
+// $nome = 'rosa';
+// insertCor($nome);
 
 
-//função para deletar dados através do id
+
+
+/**
+ *  função para deletar dados através do id
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param Int id = o Id que será deletado ex: id da cor 
+ * @return Bool se der retornará um buleano 
+ */
 function deleteCor($id){
 
     // abrindo conexão com o BD
@@ -84,12 +90,112 @@ function deleteCor($id){
     return $resposta;
 
 }
+// var_dump(deleteCor(3));
 
+  
+   
+ 
 
+/**
+ *  função para para fazer o update dos dados através do id
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */
+function updateCor($dados){
 
-var_dump(deleteCor(3));
+    //abrindo conexao com BD
+    $conexao = conexaoMySQL();
 
+    //variável de ambiente para o return da função
+    $resposta = (bool) false;
+
+    //script SQL para inserir os dados do BD
+    $sql= "
+        
+            update tblCor set
+            
+             nome = '{$dados['nome']}'
+             
+             where id={$dados['id']}";
     
-    
+    //validação para verificar se o sript está correto
+    if(mysqli_query($conexao,$sql)){
+
+        //validção para verificar se uma linha foi alterada
+        if(mysqli_affected_rows($conexao))
+        $resposta = true;
+    }
+
+    // Solicita o fechamento da conexão com o BD
+    fecharConexaoMySQL($conexao);
+    return $resposta; 
+             
+}
+
+// $dados = array(
+
+//     "nome"  => "Verde",
+//     "id"    => 5
+// );
+
+// echo '<pre>';
+// echo json_encode(updateCor($dados));
+// echo '</pre>';
+// die; 
+
+
+
+/**
+ *  função para listar dados 
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */ 
+function selectAllCor(){
+
+    // abrindo conexão com o BD
+    $conexao = conexaoMySQL();
+
+    //Script para listar as cores 
+    $sql = "select * from tblCor";
+
+    //criação da variável para array
+    $resposta = mysqli_query($conexao,$sql);
+
+    if($resposta){
+
+        $cont = 0;
+        while($dados = mysqli_fetch_assoc($resposta))
+        {
+            //criando um array com os dados do BD
+            $arrayDados[$cont] = array(
+
+                "id"    => $dados['id'],
+                "nome"  => $dados['nome']
+            );
+            $cont++;
+        }
+
+            
+    }  
+
+        //encerrando a conexão com o banco 
+        fecharConexaoMySQL($conexao);
+        
+
+        if(isset($arrayDados))
+            return $arrayDados;
+        else 
+            return false;
+
+}
+     
+
+
+
+
 
 ?>

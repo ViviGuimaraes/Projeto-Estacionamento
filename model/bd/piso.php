@@ -10,13 +10,12 @@
 require_once('conexaoMySQL.php');
 
 /**
+ *  //função para inserir o nome do piso
  * 
  * @author Vívian Guimarães Vaz
- * @param String nome - retornar o nome do piso :piso1, piso2, piso3
+ * @param String  nome do piso :piso1, piso2, piso3
  * @return Bool se der retornará um buleano 
  */
-
- //função para inserir o nome do piso
  function insertPiso($nome){
 
     //abrir conexão com o BD
@@ -45,13 +44,158 @@ require_once('conexaoMySQL.php');
     fecharConexaoMySQL($conexao);
         return $resposta;
  }
-
-        $nome = '12';
-         
-        insertPiso($nome);
-
-        echo($nome);
+    //     $nome = '12';
+    //     insertPiso($nome);
+    //    // echo($nome);
 
 
 
+/**
+ *  função para para fazer o update dos dados através do id
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */
+function updatePiso($dados){
+
+    //abrindo conexão com o BD
+    $conexao = conexaoMySQL();
+
+    //variável de ambiente para retornar dados para a função
+    $resposta =(bool) false;
+
+    //script SQL para inserir os dados no BD
+    $sql = "
+            update tblPiso set
+            
+            nome = '{$dados['nome']}'
+            where id ={$dados['id']}
+            ";
+
+    //validção para verificar se o script está correto
+    if(mysqli_query($conexao,$sql)){
+
+        //validação paara verificar se a linha foi alterada
+        if(mysqli_affected_rows($conexao))
+            $resposta = true;
+    }
+
+    //solicitação para o fehcamento da conexão com o BD
+    fecharConexaoMySQL($conexao);
+    return $resposta;
+}
+
+
+// $dados= array(
+//     "nome" => "7777777",
+//     "id"   => 11
+ 
+// );
+
+// echo '<pre>';
+// echo json_encode(updatePiso($dados));
+// echo '</pre>';
+// die;
+
+
+
+/**
+ *  função para listar dados 
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */ 
+function selectAllPiso(){
+
+    // abrindo conexão com o BD
+    $conexao = conexaoMySQL();
+
+    //Script para listar os pisos (andares) 
+    $sql = "select * from tblPiso";
+
+    //criação da variável para array
+    $resposta = mysqli_query($conexao,$sql);
+
+    if($resposta){
+
+        $cont = 0;
+        while($dados = mysqli_fetch_assoc($resposta))
+        {
+            //criando um array com os dados do BD
+            $arrayDados[$cont] = array(
+
+                "id"    => $dados['id'],
+                "nome"  => $dados['nome']
+            );
+            $cont++;
+        }
+
+            
+    }  
+
+        //encerrando a conexão com o banco 
+        fecharConexaoMySQL($conexao);
+        
+
+        if(isset($arrayDados))
+            return $arrayDados;
+        else 
+            return false;
+
+ }
+
+// print_r(selectAllPiso());
+
+
+
+
+/**
+ *  função para listar dados por id 
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */ 
+function selectByIdPiso($id) {
+    // Abrindo conexão com o BD
+    $conexao = conexaoMySQL();
+
+    // Script SQL para listar todos os setores
+    $sql = "SELECT 
+                tblPiso.id,
+                tblPiso.nome AS codigo,
+                tblPiso.ativo AS status,
+                FROM tblPiso
+                   
+                WHERE tblPiso.id = {$id}";
+
+    $resposta = mysqli_query($conexao, $sql);
+
+    // Validação para verificar se houve retorno do BD
+    if($resposta) {
+        // Convertendo os dados obtidos em Array
+        if($resultado = mysqli_fetch_assoc($resposta)) {
+            // Montando um array personalizado
+            $arrayDados = array(
+                "id"        => $resultado['id'],
+                "codigo"    => $resultado['codigo'],
+                "status"    => $resultado['status'] ,
+
+            );
+        }
+
+    }
+
+    // Solitando o fechamento da conexão com o BD
+    fecharConexaoMySQL($conexao);
+        
+    // Retornando os dados encontrados ou false
+    return isset($arrayDados) ? $arrayDados : false;    
+}
+
+//echo json_encode(selectAllPiso());
+
+ 
  ?>

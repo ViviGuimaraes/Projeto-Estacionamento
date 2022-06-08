@@ -11,14 +11,12 @@ require_once('conexaoMySQL.php');
 
 
 /**
+ * função para inserir o tipo de veiculo 
  * 
  * @author Vívian Guimarães Vaz
  * @param String nome - retornar qual o tipo de veículo ex: carro, moto, vam
  * @return Bool se der retornará um buleano 
  */
-
-
- // função para inserir o tipo de veiculo 
 function insertTipoVeiculo($nome){
 
     // abrindo conexão com o BD
@@ -50,10 +48,115 @@ function insertTipoVeiculo($nome){
 
 }
 
+//$nome = 'van';
+//insertTipoVeiculo($nome);
 
-$nome = 'van';
 
-insertTipoVeiculo($nome);
+/**
+ *  função para para fazer o update dos dados através do id
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */
+function updateTipoVeiculo($dados){
+
+
+    //abrindo conexao com BD
+    $conexao = conexaoMySQL();
+
+    //variável de ambiente para o return da função
+    $resposta = (bool) false;
+
+    //script SQL para inserir os dados do BD
+    $sql= "
+            update tblTipoVeiculo set
+                    
+            nome = '{$dados['nome']}'
+            
+            where id={$dados['id']} ";
+
+
+    //validação para verificar se o sript está correto
+    if(mysqli_query($conexao,$sql)){
+
+        //validção para verificar se uma linha foi alterada
+        if(mysqli_affected_rows($conexao))
+            $resposta = true;
+    }
+
+    // Solicita o fechamento da conexão com o BD
+    fecharConexaoMySQL($conexao);
+        return $resposta;       
+
+}
+
+// $dados= array(
+//     "nome" => "iate",
+//     "id"   => 13
+ 
+// );
+
+// echo '<pre>';
+// echo json_encode(updateTipoVeiculo($dados));
+// echo '</pre>';
+// die;
+
+
+
+/**
+ *  função para listar dados 
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */ 
+function selectAllTipoVeiculo(){
+
+    // abrindo conexão com o BD
+    $conexao = conexaoMySQL();
+
+    //Script para listar os topos de veiculos ex: moto, carro, caminhão
+    $sql = "select * from tblTipoVeiculo";
+
+    //criação da variável para array
+    $resposta = mysqli_query($conexao,$sql);
+
+    if($resposta){
+
+        $cont = 0;
+        while($dados = mysqli_fetch_assoc($resposta))
+        {
+            //criando um array com os dados do BD
+            $arrayDados[$cont] = array(
+
+                "id"    => $dados['id'],
+                "nome"  => $dados['nome']
+            );
+            $cont++;
+        }
+
+            
+    }  
+
+        //encerrando a conexão com o banco 
+        fecharConexaoMySQL($conexao);
+        
+
+        if(isset($arrayDados))
+            return $arrayDados;
+        else 
+            return false;
+
+ }
+
+//print_r(selectAllTipoVeiculo());
+ 
+
+
+
+
+
 
 
 
