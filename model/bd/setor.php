@@ -270,26 +270,32 @@ function selectByIdSetor($id) {
 
 
 
-
+/**
+ *  função para listar todos os dados ativos  
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */ 
 function selectAllSetorAtivated() {
     // Abrindo conexão com o BD
     $conexao = conexaoMySQL();
 
-    // Script SQL para listar todos os Corredores
+    // Script SQL para listar todos os setores ativos 
     $sql = "SELECT 
                 tblSetor.id,
                 tblSetor.nome AS codigo,
                 tblSetor.ativo AS status,
                 
-                tblPiso.nome AS piso,
-                tblSetor.nome AS setor
+                tblPiso.nome AS piso
+
                 
                 FROM tblSetor
                     
                     INNER JOIN tblPiso 
                         ON tblSetor.idPiso = tblPiso.id
             WHERE tblSetor.ativo = 1";
-
+                
     $resposta = mysqli_query($conexao, $sql);
 
     // Validação para verificar se houve retorno do BD
@@ -321,5 +327,66 @@ function selectAllSetorAtivated() {
 }
 
 
+//echo json_encode(selectAllSetorAtivated());
+
+
+
+/**
+ *  função para listar todos os dados ativos  
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */ 
+function selectAllSetorInativated() {
+    // Abrindo conexão com o BD
+    $conexao = conexaoMySQL();
+
+    // Script SQL para listar todos os setores inativos 
+    $sql = "SELECT 
+                tblSetor.id,
+                tblSetor.nome AS codigo,
+                tblSetor.ativo AS status,
+                
+                tblPiso.nome AS piso
+
+                
+                FROM tblSetor
+                    
+                    INNER JOIN tblPiso 
+                        ON tblSetor.idPiso = tblPiso.id
+            WHERE tblSetor.ativo = 0";
+                
+    $resposta = mysqli_query($conexao, $sql);
+
+    // Validação para verificar se houve retorno do BD
+    if($resposta) {
+        // Convertendo os dados obtidos em Array
+        $contador = 0;
+        while($resultado = mysqli_fetch_assoc($resposta)) {
+            // Montando um array personalizado
+            $arrayDados[$contador] = array(
+                "id"        => $resultado['id'],
+                "codigo"    => $resultado['codigo'],
+                "status"    => $resultado['status'],
+
+                "localizacao" => array(
+                    "piso" => $resultado['piso']
+                )
+            );
+
+            $contador++;
+        }
+
+    }
+
+    // Solitando o fechamento da conexão com o BD
+    fecharConexaoMySQL($conexao);
+        
+    // Retornando os dados encontrados ou false
+    return isset($arrayDados) ? $arrayDados : false;
+}
+
+//echo json_encode(selectAllSetorInativated());
 
 ?>

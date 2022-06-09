@@ -197,5 +197,114 @@ function selectByIdPiso($id) {
 
 //echo json_encode(selectAllPiso());
 
+/**
+ *  função para listar todos os dados ativos  
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */ 
+function selectAllPisoAtivated() {
+    // Abrindo conexão com o BD
+    $conexao = conexaoMySQL();
+
+    // Script SQL para listar todos os Pisoa ativos 
+    $sql = "SELECT 
+                tblPiso.id,
+                tblPiso.nome AS codigo,
+                tblPIso.ativo AS status,
+                
+                tblPiso.nome AS piso
+
+                
+                FROM tblPiso
+                    
+                   
+            WHERE tblPiso.ativo = 1";
+                
+    $resposta = mysqli_query($conexao, $sql);
+
+    // Validação para verificar se houve retorno do BD
+    if($resposta) {
+        // Convertendo os dados obtidos em Array
+        $contador = 0;
+        while($resultado = mysqli_fetch_assoc($resposta)) {
+            // Montando um array personalizado
+            $arrayDados[$contador] = array(
+                "id"        => $resultado['id'],
+                "codigo"    => $resultado['codigo'],
+                "status"    => $resultado['status'],
+
+            );
+
+            $contador++;
+        }
+
+    }
+
+    // Solitando o fechamento da conexão com o BD
+    fecharConexaoMySQL($conexao);
+        
+    // Retornando os dados encontrados ou false
+    return isset($arrayDados) ? $arrayDados : false;
+}
+
+//echo json_encode(selectAllPisoAtivated());
+
+
+
+/**
+ *  função para listar todos os dados Inativos 
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */ 
+function selectAllPisoInativated() {
+    // Abrindo conexão com o BD
+    $conexao = conexaoMySQL();
+
+    // Script SQL para listar todos os Pisoa desativados
+    $sql = "SELECT 
+                tblPiso.id,
+                tblPiso.nome AS codigo,
+                tblPIso.ativo AS status,
+                
+                tblPiso.nome AS piso
+
+                
+                FROM tblPiso
+                    
+                   
+            WHERE tblPiso.ativo = 0";
+                
+    $resposta = mysqli_query($conexao, $sql);
+
+    // Validação para verificar se houve retorno do BD
+    if($resposta) {
+        // Convertendo os dados obtidos em Array
+        $contador = 0;
+        while($resultado = mysqli_fetch_assoc($resposta)) {
+            // Montando um array personalizado
+            $arrayDados[$contador] = array(
+                "id"        => $resultado['id'],
+                "codigo"    => $resultado['codigo'],
+                "status"    => $resultado['status'],
+
+            );
+
+            $contador++;
+        }
+
+    }
+
+    // Solitando o fechamento da conexão com o BD
+    fecharConexaoMySQL($conexao);
+        
+    // Retornando os dados encontrados ou false
+    return isset($arrayDados) ? $arrayDados : false;
+}
+
+echo json_encode(selectAllPisoInativated());
  
  ?>
