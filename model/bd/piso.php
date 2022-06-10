@@ -16,7 +16,7 @@ require_once('conexaoMySQL.php');
  * @param String  nome do piso :piso1, piso2, piso3
  * @return Bool se der retornará um buleano 
  */
- function insertPiso($nome){
+ function insertPiso($dados){
 
     //abrir conexão com o BD
     $conexao = conexaoMySQL();
@@ -25,10 +25,10 @@ require_once('conexaoMySQL.php');
     $resposta = (bool) false;
 
     // Script SQL para inserir os dados no BD
-    $sql = "insert into tblPiso (nome)
+    $sql = "insert into tblPiso (nome, ativo)
     values (
-
-               '" . $nome . "'
+                   '{$dados['nome']}',
+                   {$dados['ativo']}
            );";
 
     //valiação para verificar se o script MSQL está correto
@@ -44,9 +44,11 @@ require_once('conexaoMySQL.php');
     fecharConexaoMySQL($conexao);
         return $resposta;
  }
-    //     $nome = '12';
-    //     insertPiso($nome);
-    //    // echo($nome);
+    //  $dados = array(
+    //      "nome" => "TESTE",
+    //      "ativo" => 1
+    //  );
+    //  echo(insertPiso($dados));
 
 
 
@@ -70,6 +72,7 @@ function updatePiso($dados){
             update tblPiso set
             
             nome = '{$dados['nome']}'
+            ativo = {$dados['ativo']},
             where id ={$dados['id']}
             ";
 
@@ -87,11 +90,11 @@ function updatePiso($dados){
 }
 
 
-// $dados= array(
-//     "nome" => "7777777",
-//     "id"   => 11
- 
-// );
+     $dados= array(
+   "nome" => "01010",
+     "id"   => 4,
+    "ativo" =>1
+ );
 
 // echo '<pre>';
 // echo json_encode(updatePiso($dados));
@@ -305,6 +308,6 @@ function selectAllPisoInativated() {
     return isset($arrayDados) ? $arrayDados : false;
 }
 
-echo json_encode(selectAllPisoInativated());
+//echo json_encode(selectAllPisoInativated());
  
  ?>

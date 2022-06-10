@@ -7,15 +7,10 @@
  */
 
 
-/***************************             VARIÁVEIS E CONSTANTES GLOBAIS DO PROJETO              *********************************** */
-//  Constantes para estabelecer a conexão com o BD:
-const DB_SERVER = 'localhost';
-const DB_USER = 'root';
-const DB_PASSWORD = 'bcd127';
-const DB_DATABASE = 'dbEstacionamento';
+
 
 // Caminho relativo
-define("SRC", $_SERVER['DOCUMENT_ROOT'] . '/fastparking');
+define("SRC", $_SERVER['DOCUMENT_ROOT'] . '/vivi/fast-parking-main/fast-parking-main/');
 
 
 
@@ -40,5 +35,84 @@ function createJSON($arrayDados){
         return false;
 }
 
+
+define("MESSAGES", array(
+        "error"     => array(
+            "IDs" => array(
+                array(
+                    "idErro" => 10,
+                    "message" => "O ID informado é inválido." 
+                ),
+                array(
+                    "idErro" => 11,
+                    "message" => "O ID informado não existe." 
+                )
+            ),
+
+            "Data" => array(
+                array(
+                    "idErro" => 20,
+                    "message" => "Não há dados a serem inseridos."
+                ),
+                array(
+                    "idErro" => 21,
+                    "message" => "Há campos obrigatórios que não foram preenchidos"
+                )
+                ),
+
+            "Insert" => array(
+                array(
+                    "idErro" => 30,
+                    "message" => "Falha ao inserir os dados no banco"
+                )
+            ),
+
+            "Delete" => array(
+                array(
+                    "idErro" => 40,
+                    "message" => "Falha ao excluir o registro."
+                )
+            ),
+
+            "Select" => array(
+                array(
+                    "idErro" => 50,
+                    "message" => "Não há dados cadastrados."
+                )
+            ),
+
+            "Update" => array(
+                array(
+                    "idErro" => 60,
+                    "message" => "Falha ao atualizar o registro."
+                )
+            )
+        
+
+
+
+
+        ),
+        "success"   => array(
+            "Insert" => array(
+                array("idErro" => 100, 
+                      "message" => "Registro inserido com sucesso!"
+                ),
+            ),
+
+            "Update" => array(
+                array("idErro" => 200,
+                      "message" => "Registro atualizado com sucesso!"
+                )
+            ),
+
+            "Delete" => array(
+                array(
+                    "idErro" => 300,
+                    "message" => "Registro excluído com sucesso!"
+                )
+            )
+        )
+));
 
 ?>

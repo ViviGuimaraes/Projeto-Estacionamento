@@ -30,10 +30,11 @@ function  insertSetor($dados){
 
      $sql = "
 
-            INSERT INTO tblSetor (nome, idPiso)
+            INSERT INTO tblSetor (nome, idPiso,ativo)
                 values (
                             '".$dados['nome']."',
-                            {$dados['idPiso']}
+                            {$dados['idPiso']},
+                            {$dados['ativo']}
                     
                     )
      ";
@@ -57,46 +58,14 @@ function  insertSetor($dados){
 }
 
 $dados = array(  
-    "nome" => "uva",
-    "idPiso" => 4
+    "nome" => "TESTEEEE",
+    "idPiso" => 4,
+    "ativo" => 1
 );
          
-        // insertSetor($dados);
+        insertSetor($dados);
         // //var_dump($dados);
 
-
-/**
- *  //função para deletar o nome do Setor
- * 
- * @author Vívian Guimarães Vaz
- * @param String  nome do piso :piso1, piso2, piso3
- * @return Bool se der retornará um buleano 
- */
-function deleteSetor($id){
-
-     //abrir conexão com o banco 
-     $conexao = conexaoMySQL();
-
-     //variável de ambiente
-    $resposta = (bool) false;
-
-    //Script SQL para excluir o nome do Setor
-    $sql = " delete from tblSetor
-                where id = {$id}";
-        
-    //validação para verificar se o script está correto
-    if(mysqli_query($conexao,$sql)){
-
-        //validação para verificar se o script foi apagado 
-        if(mysqli_affected_rows($conexao))
-        $resposta =true;
-    }
-
-    //encerrando a conexão com o banco 
-    fecharConexaoMySQL($conexao);
-    return $resposta;
-}
-// var_dump(deleteSetor(55));
 
 
 /**

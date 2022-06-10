@@ -55,44 +55,6 @@ function insertCor($nome){
 
 
 
-/**
- *  função para deletar dados através do id
- * 
- * @author Vívian Guimarães Vaz
- * @param Int id = o Id que será deletado ex: id da cor 
- * @return Bool se der retornará um buleano 
- */
-function deleteCor($id){
-
-    // abrindo conexão com o BD
-    $conexao = conexaoMySQL();
-
-    //variável de ambiente
-    $resposta = (bool) false;
-
-    //Script SQL para excluir a cor 
-    $sql="delete from tblCor
-                where id = {$id}";
-
-
-    //validação para verificar se o script está correto
-    if(mysqli_query($conexao,$sql)){
-
-        //validação para verificar se o registro foi aoagado
-        if(mysqli_affected_rows($conexao))
-        {
-            $resposta = true;
-        }
-    }
-
-    //encerrando a conexão com o banco 
-    fecharConexaoMySQL($conexao);
-    return $resposta;
-
-}
-// var_dump(deleteCor(3));
-
-  
    
  
 
