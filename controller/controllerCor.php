@@ -44,6 +44,65 @@ function inserirCor($nome){
 //echo inserirCor("purpura");
 
 
+/**
+ * Função responsável por tratar os dados para atuzalização de cores
+ * @author Vívian Guimarães Vaz
+ * @param Array $nome- nome da cor 
+ * @return Bool True se o registro foi atualizado ou um Array com uma mensagem de erro
+ */
+function atualizarCor($dados){
+
+    // Validação para verificar se há conteúdo para atualização de Cor
+    if(!empty($dados)){
+
+       // Validação para verificar se o id está correto
+       if(is_numeric($dados['id']) && $dados['id'] > 0){
+
+            // Validação para verificar se o campo obrigatório 'Nome'  foi informado
+            if(!empty($dados['nome'])){
+
+               // Chamando a model e passando os dados 
+               if(updateCor($dados))
+                    return true;
+                else
+                    return MESSAGES['error']['Insert'][0];
+
+           }else
+               return MESSAGES['error']['IDs'][0] . " ID da Cor é inválido";
+       } else 
+               return MESSAGES['error']['Data'][1];
+   } else
+        return MESSAGES['error']['Data'][0];
+}
+
+    $dados= array(
+    "nome" => "violeta",
+      "id"   => 13
+     
+  );
+
+//echo (atualizarCor($dados));
+
+
+
+/**
+* Função responsável por retornar as cores cadastradas 
+* @author Vívian Guimarães Vaz
+* @param Array void
+* @return Bool as cores encontradas ou mnessagem de erro
+*/
+function listaCor() {
+   // Chamando a função responsável por retornar o nome das cores
+   $resposta = selectAllCor();
+
+   // Validação para verificar se houve retorno de dados por parte do BD
+   if(is_array($resposta) && count($resposta) > 0)  
+       return $resposta;
+   elseif(is_bool($resposta) && $resposta == false) 
+       return MESSAGES['error']['Select'][0];
+}
+//print_r(listaCor());
+
 
 
 

@@ -71,10 +71,11 @@ function updatePiso($dados){
     $sql = "
             update tblPiso set
             
-            nome = '{$dados['nome']}'
-            ativo = {$dados['ativo']},
+            nome = '{$dados['nome']}',
+            ativo = {$dados['ativo']}
             where id ={$dados['id']}
             ";
+           // die($sql);
 
     //validção para verificar se o script está correto
     if(mysqli_query($conexao,$sql)){
@@ -165,15 +166,15 @@ function selectByIdPiso($id) {
     // Abrindo conexão com o BD
     $conexao = conexaoMySQL();
 
-    // Script SQL para listar todos os setores
+    // Script SQL para listar todos os pisos
     $sql = "SELECT 
                 tblPiso.id,
                 tblPiso.nome AS codigo,
-                tblPiso.ativo AS status,
+                tblPiso.ativo AS status
                 FROM tblPiso
                    
                 WHERE tblPiso.id = {$id}";
-
+                    
     $resposta = mysqli_query($conexao, $sql);
 
     // Validação para verificar se houve retorno do BD

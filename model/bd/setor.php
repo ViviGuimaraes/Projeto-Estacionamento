@@ -63,7 +63,7 @@ $dados = array(
     "ativo" => 1
 );
          
-        insertSetor($dados);
+       // insertSetor($dados);
         // //var_dump($dados);
 
 
@@ -88,11 +88,13 @@ function updateSetor($dados){
             update tblSetor set
             
             nome = '{$dados['nome']}',
-            idPiso = {$dados['id']}
+            idPiso = {$dados['idPiso']},
+            ativo = {$dados['ativo']}
             where id ={$dados['id']}
             
             ";
 
+            // die($sql);
 
     //validção para verificar se o script está correto
     if(mysqli_query($conexao,$sql)){

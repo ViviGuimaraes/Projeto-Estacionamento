@@ -47,29 +47,122 @@ function inserirPiso($dados){
 //   @return Bool True se foi inserido, se não Array com uma mensagem de erro
 function atualizarPiso($dados){
 
-    //validação para verifcar se há dados para atualizar piso
-    if(!empty($dados)){
+     // Validação para verificar se o id está correto
+     if(is_numeric($dados['id']) && $dados['id'] > 0){
 
-        //validação do id 
-        if(is_numeric($dados['id']) && $dados['id'] > 0){
+        //validação para verifcar se há dados para atualizar piso
+        if(!empty($dados)){
 
-            //validação para informar se o campo obrigatório 'nome foi informado'
-            if(!empty($dados['nome']) && !empty($dados['ativo'])){
+            //validação do id 
+            if(is_numeric($dados['id']) && $dados['id'] > 0){
 
-                 // Chamando a model e passando os dados 
-                 if(updatePiso($dados))
-                    return true;
-                 else
-                     return MESSAGES['error']['Insert'][0];
-            }else
-                 return MESSAGES['error']['Data'][1];
+                //validação para informar se o campo obrigatório 'nome foi informado'
+                if(!empty($dados['nome']) && !empty($dados['ativo'])){
 
-        }else 
-            return MESSAGES['error']['IDs'][0] . " ID do Setor é inválido";
-           
-    }else
-         return MESSAGES['error']['Data'][0];       
+                    // Chamando a model e passando os dados 
+                    if(updatePiso($dados))
+                        return true;
+                    else
+                        return MESSAGES['error']['Insert'][0];
+                }else
+                    return MESSAGES['error']['Data'][1];
+
+            }else 
+                return MESSAGES['error']['IDs'][0] . " ID do Piso é inválido";
+            
+        }else
+            return MESSAGES['error']['Data'][0];       
     
+    }
 }
-print_r(atualizarPiso($dados));
+
+$dados= array(
+    "nome"      => "violeta",
+      "id"      => 13,
+      "ativo"   =>1
+     
+  );
+//print_r(atualizarPiso($dados));
+
+
+
+/**
+ * Função responsável por retornar os Pisos cadastradas 
+ * @author Vívian Guimarães Vaz
+ * @param Array void
+ * @return Bool as cores encontradas ou mnessagem de erro
+ */
+function listaPiso() {
+    // Chamando a função responsável por retornar o nome do Piso
+    $resposta = selectAllPiso();
+
+    // Validação para verificar se houve retorno de dados por parte do BD
+    if(is_array($resposta) && count($resposta) > 0)  
+        return $resposta;
+    elseif(is_bool($resposta) && $resposta == false) 
+        return MESSAGES['error']['Select'][0];
+}
+
+//print_r(listaPiso());
+
+
+
+/**
+ * Função responsável por buscar informações do piso pelo ID
+ * @author Vívian Guimarães Vaz
+ * @param Int $id ID do piso
+ * @return Array Dados encontrados ou mensagem de erro
+ */
+function buscaPiso($id) {
+    // Validação para verificar se o ID informado é um ID válido
+    if(is_numeric($id) && $id > 0) {
+        // Chamando a model para busca de corredor por ID 
+        $resposta = selectByIdPiso($id);
+
+        // Validação para verificar o retorno do BD
+        if(is_array($resposta)) 
+            return $resposta;
+        else
+            return MESSAGES['error']['IDs'][0];
+    }
+}
+
+//print_r(buscaPiso(8));
+
+/**
+ * Função responsável por retornar os Pisos ativos
+ * @author Vívian Guimarães Vaz
+ * @param Array void
+ * @return Bool as cores encontradas ou mnessagem de erro
+ */
+function listaPisosAtivos() {
+    // Chamando a função responsável por retornar os dados de todos os pisos
+    $resposta = selectAllPisoAtivated();
+
+    // Validação para verificar se houve retorno de dados por parte do BD
+    if(is_array($resposta) && count($resposta) > 0)  
+        return $resposta;
+    elseif(is_bool($resposta) && $resposta == false) 
+        return MESSAGES['error']['Select'][0];
+}
+
+//print_r(listaPisosAtivos());
+
+/**
+ * Função responsável por retornar os Pisos desativados
+ * @author Vívian Guimarães Vaz
+ * @param Array void
+ * @return Bool as cores encontradas ou mnessagem de erro
+ */
+function listaPisosInativos() {
+    // Chamando a função responsável por retornar os dados de todos os pisos
+    $resposta = selectAllPisoInativated();
+
+    // Validação para verificar se houve retorno de dados por parte do BD
+    if(is_array($resposta) && count($resposta) > 0)  
+        return $resposta;
+    elseif(is_bool($resposta) && $resposta == false) 
+        return MESSAGES['error']['Select'][0];
+}
+print_r(listaPisosInativos());
 ?>

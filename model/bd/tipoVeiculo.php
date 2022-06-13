@@ -76,6 +76,7 @@ function updateTipoVeiculo($dados){
             
             where id={$dados['id']} ";
 
+       
 
     //validação para verificar se o sript está correto
     if(mysqli_query($conexao,$sql)){
@@ -155,6 +156,49 @@ function selectAllTipoVeiculo(){
 
 
 
+/**
+ *  função para listar dados por id 
+ * 
+ * @author Vívian Guimarães Vaz
+ * @param void
+ * @return bool se der retornará um buleano 
+ */ 
+function selectByIdTipoVeiculo($id) {
+    // Abrindo conexão com o BD
+    $conexao = conexaoMySQL();
+
+    // Script SQL para listar todos os tipos de veiculos
+    $sql = "SELECT 
+                tblTipoVeiculo.id,
+                tblTipoVeiculo.nome AS tipo
+               
+                FROM tblTipoVeiculo
+                   
+                WHERE tblTipoVeiculo.id = {$id}";
+                    
+    $resposta = mysqli_query($conexao, $sql);
+
+    // Validação para verificar se houve retorno do BD
+    if($resposta) {
+        // Convertendo os dados obtidos em Array
+        if($resultado = mysqli_fetch_assoc($resposta)) {
+            // Montando um array personalizado
+            $arrayDados = array(
+                "id"        => $resultado['id'],
+                "tipo"    => $resultado['tipo']
+                
+
+            );
+        }
+
+    }
+
+    // Solitando o fechamento da conexão com o BD
+    fecharConexaoMySQL($conexao);
+        
+    // Retornando os dados encontrados ou false
+    return isset($arrayDados) ? $arrayDados : false;    
+}
 
 
 
