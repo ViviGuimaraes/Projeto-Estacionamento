@@ -10,7 +10,7 @@
 
 
 // Caminho relativo
-define("SRC", $_SERVER['DOCUMENT_ROOT'] . '/vivi/fast-parking-main/fast-parking-main/');
+define("SRC", $_SERVER['DOCUMENT_ROOT'] . '/vivi/fastparkingmain/fastparkingmain/');
 
 
 

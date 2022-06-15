@@ -22,15 +22,15 @@
 
     //Converte a url requisitada em um array para dividir as opções de busca, que é separada pela "/"
     $url = explode('/', $urlHTTP);
-
     //Verifica qual a API será encaminhada a requisição (contatos, estados, etc)
     switch (strtoupper($url[0])) {
-        case 'CONTATOS':
-            require_once('contatosAPI/index.php');
+        case 'COR':
+            require_once('corAPI/index.php');
+
             break;
 
-        case 'ESTADOS':
-            require_once('estadosAPI/index.php');
+        case 'TIPO':
+            require_once('tipoVeiculoAPI/index.php');
             break;
 
     }
