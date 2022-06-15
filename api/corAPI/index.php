@@ -76,7 +76,7 @@ $app->post('/cor', function($request, $response, $args){
 
              
             
-            // Chamando a função da controller para inserir novo Preço
+            // Chamando a função da controller para inserir nova cor
             $resposta = inserirCor($dadosBody['nome']);
             
             // Validação para verifar se foi realizado o inserção do registro
@@ -137,13 +137,18 @@ $app->put('/cor/{id}', function($request, $response, $args){
              // Validação para verificar se há dados para atualizar a cor
              if(!empty($dadosBody)) {
 
+                $dados= array(
+                    "nome" => $dadosBody['nome'],
+                    "id"   => $id
 
-                 $resposta=atualizarCor($dadosBody['nome']);
+                );
+
+                 $resposta=atualizarCor($dados);
 
                  // Validação para verificar se o registro foi atualizado
                 if(is_bool($resposta) && $resposta == true) {
                     // Retornando uma mensagem de sucesso para o cliente
-                    return $response->write('{"message": "Preço atualizada com sucesso!"}')
+                    return $response->write('{"message": "Cor atualizada com sucesso!"}')
                                     ->withHeader('Content-Type', 'application/json')
                                     ->withStatus(200);
 
